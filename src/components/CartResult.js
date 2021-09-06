@@ -12,7 +12,7 @@ class CartResult extends Component {
             </td>
             <td>
                <h4>
-                  <strong>15$</strong>
+                  <strong>{this.props.total}$</strong>
                </h4>
             </td>
             <td colSpan={3}>
