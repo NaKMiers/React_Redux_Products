@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import message from '../CONSTANTS/message'
 
 class Product extends Component {
    showRating = rating => {
@@ -21,13 +22,13 @@ class Product extends Component {
    }
 
    render() {
-      let { product } = this.props
+      let { product, onAddToCart, onChangeMessage } = this.props
       return (
          <div className='col-lg-4 col-md-6 mb-r'>
             <div className='card text-center card-cascade narrower'>
                <div className='view overlay hm-white-slight z-depth-1'>
                   <img src={product.image} className='img-fluid' alt='' />
-                  <a href='/'>
+                  <a href={product.image} target='_blank' rel='noreferrer'>
                      <div className='mask waves-light waves-effect waves-light' />
                   </a>
                </div>
@@ -42,15 +43,18 @@ class Product extends Component {
                   <div className='card-footer'>
                      <span className='left'>{product.price}$</span>
                      <span className='right'>
-                        <a
-                           href='/'
+                        <button
                            className='btn-floating blue-gradient'
                            data-toggle='tooltip'
                            data-placement='top'
                            data-original-title='Add to Cart'
+                           onClick={() => {
+                              onAddToCart(product, 1)
+                              onChangeMessage(message.MSG_ADD_TO_CART_SUCCESS)
+                           }}
                         >
                            <i className='fa fa-shopping-cart' />
-                        </a>
+                        </button>
                      </span>
                   </div>
                </div>

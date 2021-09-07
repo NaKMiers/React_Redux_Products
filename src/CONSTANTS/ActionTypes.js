@@ -1,5 +1,7 @@
 const types = {
-   ADD_TO_CART: 'ADD_TO_CART'
+   ADD_TO_CART: 'ADD_TO_CART',
+   CHANGE_MESSAGE: 'CHANGE_MESSAGE',
+   DELETE_PRODUCT_IN_CART: 'DELETE_PRODUCT_IN_CART'
 }
 
 export default types

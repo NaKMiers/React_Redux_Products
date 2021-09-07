@@ -6,6 +6,13 @@ class Action {
       product,
       quantity
    })
+
+   changeMessage = message => ({ type: types.CHANGE_MESSAGE, message })
+
+   deleteProductInCart = product => ({
+      type: types.DELETE_PRODUCT_IN_CART,
+      product
+   })
 }
 
 export default new Action()

@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import actions from '../actions'
 import PropTypes from 'prop-types'
 import Products from '../components/Products'
 import Product from '../components/Product'
 
 class ProductsContainer extends Component {
    showProducts = products => {
+      let { onAddToCart, onChangeMessage } = this.props
       return products.map(product => (
-         <Product key={product.id} product={product} />
+         <Product
+            key={product.id}
+            product={product}
+            onAddToCart={onAddToCart}
+            onChangeMessage={onChangeMessage}
+         />
       ))
    }
 
@@ -28,9 +35,17 @@ ProductsContainer.propTypes = {
          inventory: PropTypes.string.isRequired,
          rating: PropTypes.number.isRequired
       })
-   ).isRequired
+   ).isRequired,
+   onAddToCart: PropTypes.func.isRequired,
+   onChangeMessage: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({ products: state.products })
 
-export default connect(mapStateToProps, null)(ProductsContainer)
+const mapDispatchToProps = dispatch => ({
+   onAddToCart: (product, quantity) =>
+      dispatch(actions.addToCart(product, quantity)),
+   onChangeMessage: message => dispatch(actions.changeMessage(message))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsContainer)

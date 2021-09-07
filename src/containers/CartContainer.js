@@ -5,6 +5,7 @@ import Cart from '../components/Cart'
 import CartItem from '../components/CartItem'
 import CartResult from '../components/CartResult'
 import message from '../CONSTANTS/message'
+import actions from '../actions'
 
 class CartContainer extends Component {
    showCartItem = cart => {
@@ -13,10 +14,23 @@ class CartContainer extends Component {
             <th>{message.MSG_CART_EMPTY}</th>
          </tr>
       )
+
+      let { onDeleteProductInCart, onChangeMessage, onAddToCart } = this.props
       if (cart.length > 0) {
-         result = cart.map((item, index) => (
-            <CartItem key={index} item={item} />
-         ))
+         result = []
+         for (let i = 0; i < cart.length; i++) {
+            if (cart[i].quantity > 0) {
+               result.push(
+                  <CartItem
+                     key={i}
+                     item={cart[i]}
+                     onDeleteProductInCart={onDeleteProductInCart}
+                     onChangeMessage={onChangeMessage}
+                     onAddToCart={onAddToCart}
+                  />
+               )
+            }
+         }
       }
       return result
    }
@@ -26,7 +40,7 @@ class CartContainer extends Component {
          return total + item.product.price * item.quantity
       }, 0)
 
-      return <CartResult total={total} />
+      return total ? <CartResult total={total} /> : <tr></tr>
    }
 
    render() {
@@ -59,4 +73,12 @@ CartContainer.propTypes = {
 
 const mapStateToProps = state => ({ cart: state.cart })
 
-export default connect(mapStateToProps, null)(CartContainer)
+const mapDispatchToProps = dispatch => ({
+   onDeleteProductInCart: product =>
+      dispatch(actions.deleteProductInCart(product)),
+   onChangeMessage: message => dispatch(actions.changeMessage(message)),
+   onAddToCart: (product, quantity) =>
+      dispatch(actions.addToCart(product, quantity))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartContainer)
